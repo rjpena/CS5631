@@ -1,0 +1,238 @@
+---
+title: "Analysis of the Rental Housing Market in the Grand Rapids Area"
+author: "Ruben Pena"
+date: "Due: December 19, 2019 5:00 p.m."
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment = NA)
+```
+
+## Abstract-300 words work and findings
+This paper attempts to analyze the rental housing market of Grand Rapids to aid in the search and identification of an area suitable for someone newly employed and moving to the area. The work campus for this study is Ada, Michigan which is located just outside of Eastern Grand Rapids. Areas closer to I-96, the Beltline(M-43), or Fulton Ave(M-21) are preferred as they offer the most direct commute. These roads also offer the fastest routes to US-131 and M-6; major connector highways that into and out of the city proper.  
+
+The purpose of this paper is to find an area with a high density of rentals; preferably in the mid-range end of rent rates. In order to find a suitable area to search for rentals, data from many sources must be gathered. Sources for this paper include GRData, Tableau Maps, Zillow Housing Data, and Rent Cafe Data.  
+
+Tasks to complete for this paper consist of answering the following questions:  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What are the most/least expensive Neighborhoods in Grand Rapids?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What are the Trends in Median Rent?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How does this data vary?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Are there any hidden hierarchies in the rental housing market? In the owned housing market?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchy of Renter Occupied Housing?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchy of Owner Occupied Housing?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchy of Per Capita Income?    
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How available is public transit? How does it relate to the rental housing market of interest?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is there any hierarchy within Neighborhood Median Rent Prices?  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How does Grand Rapids compare across the state?
+
+To visualize these task abstractly many different visualization techniques were utilized, including: 
+radial charts, time series plots, box plots, clustering, hierarchical analysis, map generation, and tree maps. 
+
+The following areas were identified and being priority areas of interest in the search for a rental in the Grand Rapids Area:  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heritage Hill - East GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Belknapp - Northeast GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fulton Heights - Northeast GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SE End - Southeast GR near the airport    
+
+## Introduction  
+I have been offered a job and, pending my graduation, will be moving to Grand Rapids after the spring semester of 2020. I would like to analyze the housing market in areas near my new place of employment. I believe myself to be familiar with the area as I completed my undergrad while living and working just outside the city. I would like to analyze the housing market to prepare for my upcoming move. 
+
+I had been previously constrained to neighborhoods that matched my financial means at the time. With the acceptance of this new position, these means have increased. This allows for a wider range of housing options in neighborhoods that were outside of my budget. My new position is located in Ada, MI. For that reason, I will be limiting the scope of my analysis to an area consisting of downtown to the eastern front (both northeast and southeast) of Grand Rapids. Areas closer to I-96, the Beltline(M-43), or Fulton Ave(M-21) are preferred as they offer the most direct commute to and from work. These roads also offer the fastest routes to US-131 and M-6, which I plan to frequently utilize to get to my favorite park. 
+
+
+## The Data  
+__GRData__  
+
+In order to conduct this analysis I first had to find reliable sources of data. With that in mind I first decided to check with the City of Grand Rapids online resources. From this search I was able to find GRData [http://grdata-grandrapids.opendata.arcgis.com/], which describes itself as a "community platform for exploring and downloading open data." This platform contained a plethora of datasets in many different formats. In particular, I utilized the "Transportation"" data to get the latitudes and longitudes of bus stops in the area. The data set originally contained over 50 attributes pertaining to each bus stop and its amenities, but was filtered down to latitude,longitude, and the average number of passengers boarded(continuous data type) in a table format in a .xls file. This location data was helpful in setting up my maps for analysis.
+
+__Tableau Map Data__  
+
+The visualization tool Tableau also contains many useful stock map data. While exploring this I found that the tool also contained demographic data from the most recent Census as well as housing data from as recent as 2016 [https://www.tableau.com/mapdata#data]. The data is natively imported into the tool and I was unable to locate a repository from which I could download and inspect the data. While that was the case, Tableau is a highly respected and regarded tool so I believe the data to be effective for the purpose of this analysis.  
+
+__Zillow Dataset__  
+
+Now that I had the foundation for creating visual maps, actual housing market data was necessary. I found that most of the GR realtors and agents utilized data from Zillow [https://www.zillow.com/research/data/]. I was able to download all of the data I needed for analysis from this site for free (assuming it's not used in a manner that competes with Zillow). The main datasets of interest from their repository was Data for Single-Family Rentals.After some filtering of the original data, a time-series of median rent (in USD) for each neighborhood in Grand Rapids from January 2015 through June 2019 downloaded in table format via an Excel workbook file. This data was saved in two formats: 1) Column attributes of median rent for each Month from 2015-2019 and row elements consisting of each Neighborhood. 2) The same data as 1, but transposed so that the column attributes were Neighborhoods and the row elements the Monthly data.
+
+__Rent Cafe Dataset__  
+
+One final data set that I found came from a blog on nationwide internet listing service, "RentCafe.com"[https://www.rentcafe.com/blog/rental-market/local-rent-reports/Michigan-rent-report-october-2019/]. This blog contained a data set of large cities in Michigan and the median rent of each from October 2019. This was saved in a simple table format of each city by median rent in USD to a .xls folder.
+
+
+## Questions  
+
+__What are the most/least expensive Neighborhoods in Grand Rapids?__  
+
+This question is important because when doing an analysis it is usually best to start at the highest level of abstraction. A quick visualization that allows for comparison of rent prices between all of the neighborhoods in the datasets I collected is the simplest way to accomplish that. 
+
+Below is a radial chart containing the average rent from neighborhoods in Grand Rapids ranging from January 2015 until June 2019. Excel was used to aggregate and calculate the average rents from the time series data collected from Zillow.
+
+<br><br>
+```{r 1.radial , echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/Radial.png")
+```
+<br><br>
+
+From the above radial chart the most expensive (Heritage Hill,East Town, John Ball Park) and least expensive (Baxter, Roosevelt Park, Garfield Park) neighborhoods are quite easily detected. These numbers match up with my expectations based on my knowledge of the area. This visualization is helpful in identifying neighborhoods that I should take into consideration based on my expected budget for housing at my new job. The answer to this question was simply finding a ranking of the Neighborhoods by average rent. Now that the neighborhoods have been ranked, I want to identify potential trends over time in these prices.
+
+
+__What are the Trends in Median Rent?__  
+
+Identifying potential trends in average rent over time should help identify the volatility of the rental housing market in Grand Rapids. Singling out upward and downward trends in median rent could indicate a hidden variable within that neighborhood that warrants investigation. For example, median rent in an area could increase due to a new mall, attraction, or renovations. Median rent could decrease as a result of the recent flooding of the Grand River, the closing of an attraction, or rezoning to Section 8 housing.
+
+Below is a time series plot of each neighborhood form January 2015 until June 2019. This visualization was constructed using the pre-filtered data from Zillow. Color was used to encode the Neighborhood attributes. This data set consists of 27 Neighborhoods. Shape markers were considered to help distinguish these elements in the graph, but ended up cluttering and occluding information.
+
+<br><br>
+```{r 2.ts, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/ts.png")
+```
+<br><br>
+
+This time series chart shows an obvious upward trend in median rent for neighborhoods collected. Of particular interest is the downward trend seen from Heartside April 2014 on. What caused that sudden drop in median rent? Some further investigation could be warranted to see if this neighborhood should still matches my preferences for housing in 2020.    
+
+Another interesting trend that stands out is the variance of noticed in the John Ball Park attribute. Median rent for this area has very large variances going from \$1500 down to \$1200 in a single year. In 2019, median rent for this area spikes to \$1600 and remains steady around this mark. I know from experience that that neighborhood houses many Grand Valley State University Students, which could explain the spike and trend around \$1600, but further investigation is warranted.   
+
+The final trend of interest is the downward trend in the Heritage Hill area. I am particularly interested in this trend, because I believe this area to be a prime candidate for my relocation. Heritage Hill seems to have a sudden drop of \$200 from 2018 on. This area is almost entirely zoned as a Historic District and even boasts the Frank Lloyd Weber house. I would expect rent in this area to maintain a steady trend, if not an upward trend. If the cause of this decrease in rent isn't drastic or too detrimental, finding an apartment in this area would be ideal. This trend informs me that Heritage Hill should be looked into closer to my move date.   
+
+___Variance___
+
+Analysis of the spread in each area should also be conducted. Below are the box plots of each area using the time series data.    
+
+<br><br>
+```{r 2.box, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/boxplots.png")
+```
+<br><br>
+
+The length of each box plot is a measure of the spread of median rent per month for each neighborhood. Based on these box plots, it is noticed that the variances in John Ball Park and Heritage Hill are both fairly normal compared to neighborhoods overall. A majority of the variance in median rent comes from those areas at the lower end of the rent ranges. As noted from the time series plot, Heartside had some odd variances. This is also noted as outliers in the box plot figure above. Not enough information is currently available to assess these outliers and the validity of the data collection. The only action available now is to note the outliers. 
+
+Now that trends and spread have been analyzed, hierarchies and other relationships should be identified.  
+
+__Are there any hidden heirarchies in the rental housing market? In the owned housing market?__  
+
+The most important part of most analyses is the identification of hierarchy. For this project, Tableau maps with the latest Census tract data and GRData ArcGIS location data was used to find relationships between many factors in Grand Rapids including: Clustering of Renter Occupied Housing Units, Median value of Owned Homes, Per capita Income, and Public Transportation over Renter Occupied Housing/Per Capita Income. Very little data abstraction was needed for these maps as all data came from Tableau via their purchased or partnered data sources. Task abstraction for this hierarchy analyses consisted of identifying if the trends in rental options, home values, and incomes would be helpful in my purpose of identifying potential areas of interest when relocating. 
+
+__Heirarchy of Renter Occupied Housing?__  
+
+The first hierarchy identified is the Renter Occupied Housing. As I am looking to rent, locating these areas is highly important.
+
+<br><br>
+```{r 3.rented, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/Rented.png")
+```
+<br><br>
+
+Above is a map showing the density of Renter Occupied Housing in Grand Rapids as of 2016 clustered on Census tracts. This visualization clearly shows the areas that are worth investigating for rental units or for home purchasing should my priorities change. This is also helpful for me because I prefer to live in less densely populated areas. This map instantly shows me areas to avoid and areas to explore for rental options. It is immediately clear that the areas less densely populated with Renters are in the affluent areas, industrial areas, or main commercial areas of Grand Rapids. I have called out my future Work Campus on the map to help identify the issue with renting nearby. The rental options near my place of employment are very limited.  
+
+Since the hierarchy of Renter Occupied Housing was identified, I figured I would check the median values of Owner Occupied Houses in the area.  
+
+__Heirarchy of Owner Occupied Housing?__  
+
+<br><br>
+```{r 3.owned, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/Owned.png")
+```
+<br><br>
+
+The above map indicates the median value of homes as of 2016 clustered by Census tracts. Again, I have called out my workplace campus. The surrounding area consists of homes with values of \$200k plus. This tells me that if I want to buy a home anywhere near work, I will need to save up money for a hefty down payment or utilize my VA Home Loan. 
+
+This map exactly matches my expectations of home values in Grand Rapids and was very interesting to have confirmed. I was honestly surprised by the maximum value of \$2M dollars on the map scaling. This visualization will be very helpful if and when I decide to buy a home. The density of high-value homes near down town Grand Rapids was very surprising to me. I believe that some of these houses may in fact also be rental units and duplexes, but have no way to confirm this suspicion.
+
+Next, I want to analyze where individuals of similar income live.
+
+__Heirarchy of Per Capita Income?__  
+
+Accepting a position of out college generally means a large increase in annual income. As that is the case, I would like to identify where people of similar income reside. This was found using Tableau's demographic data and Census tract data.   
+
+<br><br>
+```{r 3.percapita, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/PerCapitaIncome.png")
+```
+<br><br>
+
+Above is a map of per capita income of 2016 by latest Census tract. I was interested to see that this visualization matches very closely to the Median Home Value map directly above. Areas on this map that show higher incomes per capita have higher home values. Unfortunately for my work commute, this is also inversely true for available rental units in these areas; there are little to no rental units near these high income areas. As a result of these visualizations I know that I will need to widen my search for appropriate rental options closer to downtown and or the North East and South East sections of Grand Rapids.
+
+__How available is public transit? How does it relate to the rental housing market of interest?__  
+
+As I found data regarding public transportation, I decided to check on the availability of bus stops in the Grand Rapids area. The main hub for GR Greyhound buses is downtown and is the most affordable travel to Chicago. Having a connector to this help could be worthwhile. Below shows Bus Stop elements as green dots, with saturation of the dot as the average number of boarding passengers per day (most values are the same so there is very little variation). For the purpose of this analysis, I have superimposed these elements on top of the Renter Occupied Housing data from 2016.
+
+<br><br>
+```{r 3.percapitaT, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/RenterOccupied.png")
+```
+<br><br>
+
+It is very interesting to see that the bus routes seem to almost chase into the clusters of areas densely populated with Renters in the South East and South West. As public transportation is not high on my list of specifications for an apartment, this visualization is slightly less useful than the others, but nonetheless worth including to highlight the demographics of Grand Rapids.
+
+Lastly, I would like to compare Grand Rapids with other cities in Michigan and find the hierarchy of median rents within Grand Rapids.
+
+
+__Is there any heirarchy within Neighborhood Median Rent Prices?__  
+
+In order to asses the hierarchy of Median Rent prices for neighborhoods in Grand Rapids, I utilized the filtered, transformed, aggregated data acquired from Zillow. Using Tableau, I was able to construct the following tree map visualization.
+
+<br><br>
+```{r 4.treemap, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/Treemap.png")
+```
+<br><br>
+
+This tree map highlights the Neighborhoods with similar Median rent values from 2015 to 2019. The box size indicates the range of median rents and color of the boxes indicates clusters of similar Neighborhoods. This will be helpful in identifying areas similar to ones that I know I am interested in and could lead to finding a residence in an area that I might not have thought to look on my own.
+
+Next, I wanted to compare Grand Rapids rent to other cities around the state.
+
+
+__How does Grand Rapids compare across the state?__  
+
+This data was collected from RentCafe and populated into an Excel workbook in table format. No other data abstraction was needed for this simple data set. Below is a tree map clustering the major cities of Michigan by median rent.  
+ 
+<br><br>
+```{r 4.Cities, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/TermProj/Img/Cities.png")
+```
+<br><br>
+
+Right away, Allendale has the highest median rent stands out to me. I know that this is the main campus of Grand Valley State University and I can't help but wonder if this data is dirty with the inclusion of costs for dining halls, tuition, etc. It can be seen that Grand Rapids rates near the top of the middle in terms of median rent across the state. I was surprised to see that median rents were quite similar between Grand Rapids and some of the more affluent areas in the state such as Rochester Hills and Royal Oak. I plan on staying in Mid-Michigan or West Michigan as long as I am able to find work in the state, so this visualization is a great overview of the state's median rents.
+
+## Conclusion  
+In conclusion, this analysis has given me visual aids in identifying areas that would be suitable for my to find an apartment. The combination of demographic, geospatial, and market data proved a great means to analyzing the areas around Grand Rapids. Through research of this project I was also able to find and read many great articles regarding the housing marking in Grand Rapids that has given me new insights into my search for an apartment next spring.  
+ 
+A shortcoming of this data was that I was not able to tie the neighborhoods rent data into the Tableau maps. Zillow did not have the geographic data available to section out the maps by Neighborhood and I was not able to locate it anywhere. This analysis would be greatly improved with that data as I would be able to highlight and call out neighborhoods of interest. 
+
+I also was not able to implement interactive maps from this data. According to the Tableau Support section in order to run interactive books you need to first upload it to a Tableau server. As I have no such server, I was unable to implement this.
+
+Overall, I believe that this analysis was useful to me personally. Using this analysis the following areas were identified and being priority areas of interest in the search for a rental in the Grand Rapids Area:  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heritage Hill - East GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Belknapp - Northeast GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fulton Heights - Northeast GR  
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SE End - Southeast GR near the airport  
+ 
+When moving next spring, these neighborhoods will be the first on my list to search for living quarters. As a bonus, I was able to identify areas with homes in the price ranges I could potentially purchase.
+
+## References 
+
+Bona, S. (2019, November 25). Michigan Rent Report - October 2019. Retrieved December 1, 2019, from  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.rentcafe.com/blog/rental-market/local-rent-reports/Michigan-rent-report-october-2019/.  
+
+Grand Rapids Bus Stops. (n.d.). Retrieved December 1, 2019, from  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://grdata-grandrapids.opendata.arcgis.com/datasets/grand-rapids-bus-stops.  
+
+GRData. (n.d.). Retrieved December 1, 2019, from http://grdata-grandrapids.opendata.arcgis.com/.  
+
+Home. (n.d.). Retrieved December 1, 2019, from https://www.zillow.com/research/.   
+
+Housing Data. (n.d.). Retrieved from https://www.zillow.com/research/data/.    
+
+Housing NOW! (n.d.). Retrieved December 1, 2019, from https://www.grandrapidsmi.gov/Government/Programs-and-Initiatives/Housing-NOW. 
+ 
+ 
+Maps. (n.d.). Retrieved December 10, 2019, from https://www.tableau.com/solutions/maps.  
+
+
+
+
+
+
+
+
