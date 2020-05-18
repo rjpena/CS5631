@@ -1,0 +1,162 @@
+---
+title: "Exercise 3"
+author: "Ruben Pena"
+date: 'Due: November 15, 2019'
+output:
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment = NA)
+```
+
+## Introduction   
+In this exercise I have been tasked with analyzing survey results from 25 participants. These participants were asked 14 questions regarding the usefulness of a particular feature of a software tool. The tool and the exact questions are unknown.
+
+## The Dataset  
+The dataset was delivered as an .xls table of the results. 
+No initial formatting or cleaning was necessary.   
+The dataset contains 25 rows of survey data.  
+Attributes Q1-Q11 are ordinally scaled 1-5; ranging from "strongly disagree" (1), "disagree" (2), "neutral" (3),"agree" (4), and "strongly agree" (5). Attributes Q12 and Q13 are discrete numericals, ranging 1 to 5. 
+
+## Data Abstraction  
+Transformations of this dataset included:   
+  - transposing  
+  - pivoting and aggregating  
+  - melting
+  - ranking
+  
+Row and Column labels were added to make results more understandable.
+  
+Per the directions, Questions 9 and 14 were removed as they are irrelevant to the exercise.
+
+
+## Task Abstraction  
+
+Per the documentation:  
+Questions 1-4 are related to the aspect of a visualization system's usefulness (total of 4 systems).  
+Questions 5-8 are ratings on how helpful each respective visualization was for the participant (1 for each of the 4 systems).  
+Questions 10 and 11 are ratings on the participant's experience in using the system to learn and improve their previous studies.  
+Question 12 is a particularly useful attribute that rates the amount of time it took the participant to understand concepts by using the visualization system.  
+Question 13 relates to how many times a subject used the visualization system in their studies and indicates a range from low to high in frequency.  
+
+For this dataset I have the following questions that I wish to investigate:
+
+***Task 1: Trends***  
+I want to look at general distributions of the survey responses using high-level techniques to see if any trends can be identified.  
+
+***Task 2: Coorelations***  
+Based on the above information I suspect there to be correlation as these are evaluations of the same aspects of the visualization system. 
+
+Spearman's Ranked Correlation can be used to determine correlations.  
+
+***Task 3: ANalysis Of VAriance***  
+I suspect that Q1-4 may have similarities with Q5-8 as they are all survey questions relating to the same respective systems (4 systems were surveyed). I want to analyze these results to see if are statistically significant to each other. I suspect that they should be with the exception being Q3 which scored significantly lower than all other questions. To check this I will run ANOVA using Kruskall-Wallis algorithm on the survey results and visualize the results.
+
+***Task 4: Are there any identifiable clusters?***   
+I want to check for overall clustering of the responses to see if I can find participants that responded similarly to the survey questions. I think this will  give a better visualization of coorelation than a heatmap.  
+
+***Task 5: Heirarchy***  
+Lastly, I would like to identify the general heirarchy of this dataset to see if and how the data is sytematically organized.  
+
+### Task 1: Are there any trends in Respondent answers and/or by Question that can be identified?
+
+I want to start off with high level overviews of the data. I created stacked bar charts by both Respondent and Question to check the distributions. 
+
+<br><br>
+```{r task11, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/Rdist.png")
+```
+<br><br>
+
+I chose the above visual to get an idea on which Respondents tended to give lower/higher ratings. This visual is based on the 1-5 scaled scores per question (data has not been transformed). From this we can see that Respondents 8,21,23,24,and 25 scored the system lower than most, while 17,19,22 ranked them higher than most of the others. Follow-up questioning of these Respondents to learn more about why they ranked the system the way that they did may offer more insight into improving the system.
+
+Next, I want to check the distributions for each Question using a scaled stacked bar chart.  
+<br><br>
+```{r task12, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/stacked.png")
+```
+<br><br>
+
+This visual helps to easily identified which section (based on the question responses) of the system had low responses. From the visualization below, Q3,Q12,Q13 all performed significantly lower than other Questions with the 25 Respondents.    
+
+This visualization shows that the system that Q3 is surveying may have some flaws according to the survey results. 
+
+Q12 is slightly different from the rest  of the Questions. A lower response for this Question is actually more desirable as it indicates how long it took Respondents to understand the concepts using the visualization tool. Q12 results appear to validate the usability of this system.  
+
+Despite the ease of use that was indicated in Q12, the results for Q13 show that the system was used less than 60 times in total by Respondents for their studies. It is difficult to assess if this is useful as there is no question pertaining to overall amount of studies each Respondent did. If data were gathered that showed how many times each Respondent used this visualization versus how many total studies they had, a better assumption could be made. This data only shows that, on average, Respondents used the system 2 times in their studies.  
+
+Another quick visualization to gauge trends is the parallel coordinates plot previously used in past assignments. Below is a plot scaled on the ordinal responses given by each Respondent for each Question of the survey.
+
+<br><br>
+```{r task13, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/Pcoord.png")
+```
+<br><br>
+
+The parallel coordinates plot confirms the lower responses of Q3,Q12, and Q13. As told above, the lower responses for Q12 are acceptable. This plot is helpful in highlighting the relatively few instances in which Respondents scored a 1 for a majority of the Questions.
+
+### Task 2: Are the Questions correlated?    
+As stated above, I want to check for correlations within this data set. In order to do so I have taken the Spearman's Ranked Correlation values. This was done by first ranking the values for each each question. As suspected within the ranked values are many matching values (because the responses contained only 5 levels). Once this was accomplished the stock Excel algorithm for Spearman's correlation coefficient was used. Below are the results visualized in a heatmap colored by relative correlations.
+
+<br><br>
+```{r task21, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/spearmanHeatmap.png")
+```
+<br><br>
+
+This map shows that most questions have some to moderate correlation with very few at or below zero. The results of correlations between Q3 and Q5 stands out as being moderately negatively correlated. I had expected that the questions would be positively correlated due to the nature of the questions (as I understand them from the assignment details). That is, all of the questions are about visualizations of the same system. That assumptions appears to be mostly accurate with the exception of two Questions.Q3 and Q12 appear to have the most negative correlations with other Questions. 
+
+
+### Task 3 Analysis of Variance
+In order to test if Q1-Q4 and Q5-Q8 (Q1 and Q5 were answered similarly, Q2 and Q6 were answered similarly, etc.) are significantly similar, I ran tests to analyze the variance between these questions. This was done using the appropriate subset of data with the Data Analysis Toolpak in Excel. From the output of this tool, I calculated the Standard Error (square root of variance divided by count). With this information I was able to construct side by side bar charts to compare. Standard Error helps to illustrate how significant the differences are because it shows wether they could be within the known range of errors or not.
+<br><br>
+```{r task31, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/AnovaQs.png")
+```
+<br><br>
+After graphing the results of the ANOVA it is clearly seen that Q3 scored significantly lower than Q7, even outside of any standard error. As these Questions relate to the same part of the system, the system that Q3/Q7 correspond to should be investigated further to see why the particular aspect of it that was questioned in Q3 scored so low. In other words, optimizing the part of the system that was surveyed for Q3 could be an impactful improvement for this system.  
+
+### Task 4 Clustering  
+In order to check for overall clustering of the responses a cluster map was created in Tableau. Clusters were created using the transposed data. Automatic cluster detection was used to create the visual below.  
+
+<br><br>
+```{r task41, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/Cluster.png")
+```
+<br><br>
+This visualization clustered the survey data by Respondants (S1-S25). Size was used to add the actual response of each student to each question as another dimension.  
+
+Results of Clustering (k-means):  
+Cluster 1 contains Respondents 1,2,11,12,21,25  
+Cluster 2 contains Respondents 4,9,10,13,15,17,19,22  
+Cluster 3 contains Respondents 3,5,6,7,8,14,16,18,20,23,24  
+
+This visualization shows that the Respondents in these clusters have similar responses for the entire dataset of Questions. Size was included to help further identify these patterns (similar sized circle elements means similar ranking for each datapoint).  
+
+### Task 5: Heirarchy
+
+In order to get a high level overview of heirarchy, a treemap was created in Excel. This was created using a melted version of the dataset.
+<br><br>
+```{r task51, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise3/figs/treemap.png")
+```
+<br><br>
+This graphic uses color to indicate Respondents with the size of each cell indicating the value of each response given for the individual questions. This visualization shows that Respondents 19,22, and 17 all ranked the system the highest overall and Respondent 8 the lowest. This visualization is helpful in identifying how Respondents voted overall and on each Question using size. If more was known about the Respondents (i.e demographic data) this map could potentially be useful in identifying ranking behaviors among those demographics. Overall, this graphic was very helpful in identifying a heirarchy for the survey data. 
+
+I decided to import this data into R to inspect dendrograms based on both Respondent and Question. Below are the results.
+
+```{r, echo=FALSE,out.width="49%",out.height="20%",fig.cap="Heirarchical Clusters in R",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c("D:/MTU/FALL2019/DataViz/Exercise3/figs/hclustR.png","D:/MTU/FALL2019/DataViz/Exercise3/figs/tclustQ.png"))
+``` 
+
+These visualizations somewhat match with the clustering done earlier and the treemap, but are calculated using agglommerative clustering algorithms based on the dissimilarity structure of the data. This visuals show the complete link clustering. R base graphics are quite simple but offer a clean look at the hierarchy of the data.  
+
+## Conclusions
+Using the data given and the visualizations created trends, correlations, statistical significance of variance, clusters, and heirarchy were identified in the dataset. Both Respondant behavior and Question performance were identified and analyzed. It was also identified that the poor performance of Q3 is likely worth further investigation to increase the usability of the overall system and possible increase adoption of it among the Respondents(increasing results for Q13). If more specifics were known about the dataset more hypotheses and tests could be conducted. 
+
+
+
+
+
+
