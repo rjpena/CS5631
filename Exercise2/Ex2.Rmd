@@ -1,0 +1,269 @@
+---
+title: "Analysis of Survey Responses"
+author: "Ruben Pena"
+date: 'Due: November 1, 2019'
+output:
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction  
+The objective of this report is to validate the analysis of snowfall in Houghton County that was done in Exercise 1. This report will breakdown sampling methods, questions, and results of the validation conducted.  
+
+## Data Collection Method  
+A sample of MS students were given a Google survey that contained questions to gauge the effectiveness of the visualizations that were presented in the analysis that was done for Exercise 1. This cannot be considered a random sample as it consisted of MS students at Michigan Tech who I personally know. In order to adress this issue, survey submissions were anonymous.  
+
+The goal was to survey at least 10 students who have not taken CS5631. For this report, only 8 students responded. No assumptions of a normally distributed or random sample can be made with this study.   
+
+The survey itself consisted of 13 questions designed to validate the effectiveness of the graphics that were presented as well as the overall design of the report.  
+
+## Assumptions  
+As the students that were surveyed are primarily Data Science (mostly first year) students, I assume that they are familiar with the same visual representations that I was prior to starting this course. I believe that they will not be familiar with most of the graphics with the exception of the parallel coordinates plots and possibly the moving average and time series prediction graphic.  
+
+## Data Processing
+Results of the survey were exported to an Excel sheet to be further transformed for analysis. Initial dimensions of the data was a 8 x 13 table (row x column) consisting of rows that represented each student's response and columns represeting the survey questions. The data within this table was simply the survey reponses; which offers little use for analysis.  
+
+To make a useful table, the attributes (questions) were factorized and set to levels that consisted of all possible answers: "Strongly disagree", "Disagree", "Neutra", "Agree", "Strongly agree". Once this was done the dataset was transposed and aggregated on the count of each response per question.  
+
+The transformations resulted in a 13 x 8 aggreated table. From this table the following simple visualizations were made. Bar charts were chosen as the data is simple with very low dimensionality. Pie charts were not considered because of the sparseness of the data.
+
+## Overall Results
+To begin, I created a high-level overview of the results with the Question on the x-axis and the count of each response level in a stacked bar chart. The results show that a majority of the questions scored well. I can't rule out that, despite being an anonymous survey, the results were influenced by relationship between myself and the respondents.
+
+The stacked bar chart below indicates that a majority of the responses were "Agree" and "Strongly agree", with a fe "Neutral" responses mixed it. For the purpose of this validation the "Neutral" responses are of more importance as they could indicate weaknesses in the report that could be improved upon. 
+
+<br><br>
+```{r image, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/first.png")
+```
+<br><br>
+
+## General Flow of the Report  
+Question 1. "The general outline of the page is easy to follow."
+
+Results show that the respondents were able to follow the report well.  
+
+<br><br>
+```{r image1, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q1.png")
+```
+<br><br>
+
+## Data Abstraction   
+
+Question 2: "The "Data Abstraction" section gives a high-level look at what will be analyzed."  
+
+I wanted to ensure that this was easily understood and gave the reader a general idea of what data was being analyzed and how the data was transformed for the purpose of analysis.
+
+Results also show that this section was clear and concise.  
+<br><br>
+```{r image2, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q2.png")
+```
+<br><br>
+
+## Task Abstraction
+Question 3:  "The "Task Abstraction" section is intuitive and easily understandable."  
+
+According the results collected the "Task Abstraction" section was intuitive and easy to understand.
+
+<br><br>
+```{r image3, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q3.png")
+```
+<br><br>
+
+## Moving Average  
+Question 4: "The "Moving Average" vizualization is easy to comprehend and interpret." 
+
+This is a gauge as to wether the visual containing the Moving Average of the snowfall accumulation time series was interpretable.  
+
+The results from this question show that all respondents were either familiar with moving averages in time series or were able to figure it out from the visual and description in the report.  
+
+<br><br>
+```{r image4, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q4.png")
+```
+<br><br>
+
+## Parallel Coordinate Plots    
+Question 5: "The Parallel Coordinate Plots (with and without box plots) helped identify a trend."
+
+Question 5 was the question that I expected to see deviate the most from the rest of the questions. This assumption was based on my prior ignorance of parallel coordinate plots. I have had many classes with most of the respondents and knew that parallel coordinates were not covered in any of those classes. Despite that belief, most of the respondents were able to intuit the general idea behind the visualization, but 2 answered "Neutral".   
+
+In future surveys, I should have a question comparing the two graphics in the report, with and without the box plot overlays. I believe that without the box plots over the plot that fewer would have been able to interpret this visualization as well.
+
+<br><br>
+```{r image5, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q5.png")
+```
+<br><br> 
+
+## Heatmap
+Question 6: "The heat map was helpful in identifying similarities between Months and Years."  
+
+Heatmaps have been a fairly common visualization used in Data Science coursework. The primary use thus far has been to either show coorelations or to identify attributes or records with many missing values in very high dimension datasets.  
+
+The results still show that most respondents found that this graphic succeeded in showing similarities in the data. The number of "Neutral" responses was higher than I had anticipated and indicate that another method or visualization may be better suited to this task. 
+
+<br><br>
+```{r image6, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q6.png")
+```
+<br><br>
+
+## Stacked Bar Charts
+Question 7: "The stacked bar chart was helpful in comparing monthly trends for each decade."
+
+The results from this question were as expected. Stacked bar charts are an excellent tool for a quick high-level view of the data and performed well. Results show that the stacked bar chart was helpful in comparing monthly trends for each decade.  
+
+<br><br>
+```{r image7, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q7.png")
+```
+<br><br>
+
+## Stacked Area Chart
+Question 8: "The stacked area chart was helpful in indentifying changes in snowfall per month over time."  
+
+The results from the question regarding the effectiveness of the stacked area charts were surprising. I had assumed that this visualization clearly showed variations in snowfall by month across the years. Despite that the stacked area chart was helpful in indentifying changes in snowfall per month over time for most of the respondents.  
+<br><br>
+```{r image8, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q8.png")
+```
+<br><br>
+
+## Side by Side Bar Charts
+Question 9: "The side by side bar charts made it easy to compare 1910 snowfall per month with 2010."
+
+The results from this question met expectation as side by side bar charts share the same strenghts as plain bar charts.The side by side bar charts made it easy to compare 1910 snowfall per month with 2010. 
+
+<br><br>
+```{r image9, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q9.png")
+```
+<br><br>
+
+## 10 Year Forecast  
+Question 10: "The 10 year forecast visualization matches expectation."
+
+The results from this survey question show that most were able to comprehend the 10 Year Forecast visualization but not as readily as some other graphics presented in the report. Follow-up questions regarding the reason respondents chose "Agree" rather than "Strongly agree" would most likely be helpful in future validation of my works.   
+<br><br>
+```{r image10, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q10.png")
+```
+<br><br>
+
+## Forecast Explanation
+Question 11: "The forecast vizualization and explanation was easy to comprehend."
+
+Despite the forecasting visualization only recieving "Agree" responses, the explanation behind the forecast recieved overall better marks. Follow-up questions regarding this imbalance could be conducted to improve analyses in the future. A section explaining the visualization was placed before the actual graphic; so I am unsure how to improve the actual graphic itself.  
+
+<br><br>
+```{r image11, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q11.png")
+```
+<br><br>
+
+## Quality of Task Abstraction   
+Question 12: "Each section answered the question that was asked."  
+This question was designed to gather validation on the effectiveness of the task abstraction; does each section ask and answer a question regarding the data. Results show that the report covered both.  
+
+<br><br>
+```{r image12, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q12.png")
+```
+<br><br>  
+
+## Respondent Expectation  
+Question 13: "This analyses in this page all match my expectations of snowfall in Houghton County."  
+
+The final qualitative question in the report was designed to see if what was observed in the report matched the expectations of the respondents. This question would give a general consensus that the visualizations match waht the respondents know from their experience living in the area during a winter. It appears that the visualizations do indeed match what the respondents expected.  
+
+<br><br>
+```{r image13, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/q13.png")
+```
+<br><br>
+
+## ANOVA for Visualization Results
+In order to test the means of results for questions pertaining specifically to visualizations, an ANOVA test was completed and visualized using bar charts with the computed standard error bars added at the top
+
+<br><br>
+```{r image14, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/ANOVA.png")
+```
+<br><br>
+
+The bar chart above is a plot of the average of each score for the visualizations (abbreviations below).
+
+MA - Moving Average Plot    
+PC - Parallel Coordinates Plot    
+HM - Heatmap    
+SBC - Stacked Bar Chart    
+SAC - Stacked Area Chart   
+SBS - Side by Side Bar Chart   
+FCST - Forecast 
+
+Standard Error was calculated using the results of the Excel ANOVA function and added to the bar chart as Error Bars. Based on the output it appears that the Side by Side Bar Chart scored much better than the Stacked Bar Chart; and was even among the top performing of all visualizations. I was surprised to see that the Stacked Bar Chart had the lowest average score. 
+
+The p-value of ~.0002 of this ANOVA test indicated that the means are indeed not equal.  
+
+I also conducted a Kruskal-Wallis Rank Sum test under nonparametric assumptions. The results (below) also indicate the same with a p-value of ~ .000006.
+
+
+<br><br>
+```{r image15, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/kruskal.png")
+```
+<br><br>
+
+## Correlations  
+In order to check for correlations among the survey questions I created a heat map of correlation values. This was done using Spearman's Ranked correlation in Excel.
+
+<br><br>
+```{r image16, echo=FALSE, out.width = '100%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/heatmap.png")
+```
+<br><br>
+
+Based on the output it appears that many of the Questions are highly correlated, both positvely and negatively. This matches my expectations as the data was very highly skewed to the left with most of the Questions recieving Neutral or higher on their respective scores for all students surveyed.  
+
+## Treemap  
+
+To check for hierarchical structuring between Students and Questions a treemap was created in Excel. The initial survey data was first melted and then plotted.
+
+<br><br>
+```{r image17, echo=FALSE, out.width = '80%',fig.align='center'}
+knitr::include_graphics("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/treemap.png")
+```
+<br><br>  
+
+The treemap shows that overall the Students rated all questions very similarly. Within each Student structure the results of each question by student are depicted by the size of each relative box. None of the Question boxes are obviously larger in size comparatively per Student and even tend to have the same sizes. This was to be expected as the data was sparse and skewed with a majority of the scores being 3,4,and 5.
+
+As the rectangles tend to be the same size for both Students and Question it is difficult to detect the hierarchy of the data. I have only typically used treemaps for data with three dimensions,
+
+Importing the dataset to R, I was able to create an agglomerative clustering of both Student data and Question data. This was done using the dissimilarity matrix for each dimension.
+
+<br><br>
+```{r, echo=FALSE,out.width="49%",out.height="20%",fig.cap="Heirarchical Clusters in R",fig.show='hold',fig.align='center'}
+knitr::include_graphics(c("D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/Student.png","D:/MTU/FALL2019/DataViz/Exercise2/Ex2/figures/Question.png"))
+``` 
+<br><br>
+
+This visualization makes it much easier to see specific clusters of Students and Questions and the hierarchy connecting them.
+
+
+## Conclusion 
+
+Overall, results were positive and matched my previously stated expectations. I still believe that some of these results were lenient despite the sampling methods and measure taken to ensure anonymity.  
+
+In order to improve this validation, open-ended reponses might help to further illucidate the reasoning behind some of the results. Expecting that these students are at least as busy as I am with coursework, I chose to only use ordered qualitative questions. 
+
+As a result of the small sample size and possible biases it is difficult to fully validate the work in Exercise 1, but the students who participated in the survey recieved the report positively.
+
+<br><br><br>
+
+
